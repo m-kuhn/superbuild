@@ -52,6 +52,7 @@ superbuild_package(
     qtsensors-${QGIS_QT_VERSION}
     qttools-${QGIS_QT_VERSION}
     qttranslations-${QGIS_QT_VERSION}
+    host:protobuf
   
   SOURCE
     URL            ${base_url}${version}.tar.gz
@@ -65,29 +66,13 @@ superbuild_package(
       -DBUILD_SHARED_LIBS=ON
       -DUSE_THREAD=ON
       -DWITH_QTWEBKIT=OFF
+      -DGEOS_INCLUDE_DIR=${INSTALL_DIR}/usr/include
+      -DGEOS_LIBRARY=${INSTALL_DIR}/usr/lib/libgeos_c.so
+      -DGDAL_INCLUDE_DIR=${INSTALL_DIR}/usr/include
+      -DGDAL_LIBRARY=${INSTALL_DIR}/usr/lib/libgdal.so
     $<$<NOT:$<BOOL:@CMAKE_CROSSCOMPILING@>>:
       -DBUILD_TESTING=ON
     >
-    $<$<BOOL:@CMAKE_CROSSCOMPILING@>:
-      -DCMAKE_PROGRAM_PATH=${HOST_DIR}/bin # for sqlite3
-      -DBUILD_TESTING=OFF
-    >
-    $<$<NOT:$<OR:$<BOOL:@CMAKE_CROSSCOMPILING@>,$<BOOL:@MSYS@>>>:
-    TEST_COMMAND
-      "${CMAKE_COMMAND}" -E env
-        "PROJ_LIB=${DESTDIR}${CMAKE_STAGING_PREFIX}/share/proj"
-        "${CMAKE_COMMAND}" --build . --target test
-    TEST_AFTER_INSTALL
-    >
-    INSTALL_COMMAND
-      "${CMAKE_COMMAND}" --build . --target install/strip/fast
-    COMMAND
-      "${CMAKE_COMMAND}" -E copy_directory
-        "<SOURCE_DIR>/../proj-patches-${patch_version}/data"
-        "${DESTDIR}${CMAKE_STAGING_PREFIX}/share/proj"
-    COMMAND
-      "${CMAKE_COMMAND}" -E copy
-        "<SOURCE_DIR>/../proj-patches-${patch_version}/copyright"
-        "${DESTDIR}${CMAKE_STAGING_PREFIX}/share/doc/copyright/proj-${patch_version}.txt"
+      -DWITH_QT5SERIALPORT=OFF
   ]]
 )
