@@ -29,8 +29,8 @@
 
 # https://tracker.debian.org/pkg/gdal
 
-set(version        master)
-set(download_hash  SHA256=a06b47271827892f1897464c04a2a484f682f930d96b4d0329634512e973fe29)
+set(version        640f046c1c18fb3f3074e54a5a13946ff9797c3d)
+set(download_hash  SHA256=d76bc4083cdef0370e2215e6564ea8ec53fda4f02c70767c87440f8396b48499)
 set(patch_version  ${version})
 set(patch_hash     SHA256=50314f747a4813566d0005b677f83eab50c5e2b32ce23e513830724d86ae5640)
 set(base_url       https://github.com/qgis/QGIS/archive/)
