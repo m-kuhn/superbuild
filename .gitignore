@@ -5,4 +5,7 @@
 !COPYING
 !README.md
 !*.cmake
+!.docker-scripts
+!.github
+!Dockerfile
 *.local.cmake

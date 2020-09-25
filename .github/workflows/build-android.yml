@@ -1,0 +1,21 @@
+name: Build
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [armv7a-linux-androideabi, aarch64-linux-android, i686-linux-android, x86_64-linux-android]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Build
+        env:
+          TARGET: ${{ matrix.arch }}
+        run: |
+          docker build . -t superbuild-deps
+          docker run -e TARGET -v $(pwd):/usr/src superbuild-deps /usr/src/docker-scripts/build-android.sh
